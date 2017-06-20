@@ -19,8 +19,6 @@ void AnalyzeTree() {
 
 	//Loop over all entries of the TTree or TChain
 	while (myReader.Next()) {
-		\\ Get the data from the current TTree entry by getting
-		\\ the value from the connected reader (eventSize):
 		totalSize+=*eventSize;
 	}
 
