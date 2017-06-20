@@ -9,13 +9,13 @@ void AnalyzeTree() {
 	TFile *f=TFile::Open("http://lcg-heppkg.web.cern.ch/lcg-heppkg/ROOT/eventdata.root");
 	if (f==0){
 		//if we cannot open the file, print an error message and return immediately
-		printf("Error: cannot open http://lcg-heppkg.web.cern.ch/lcg-heppkg/ROOt/eventdat.root!\n")
+		printf("Error: cannot open http://lcg-heppkg.web.cern.ch/lcg-heppkg/ROOt/eventdat.root!\n");
 		return;
 	}
 
-	/Create tyhe tree reader and its dta containers
+	//Create tyhe tree reader and its dta containers
 	TTreeReader myReader("EventTree",f);
-	TTreeReaderValue,Int_t> eventSize(myReader, "fEventSize");
+	TTreeReaderValue<Int_t> eventSize(myReader, "fEventSize");
 
 	//Loop over all entries of the TTree or TChain
 	while (myReader.Next()){
