@@ -31,11 +31,11 @@ void AnalyzeTree() {
 
 	//Create tyhe tree reader and its dta containers
 	TTreeReader myReader("EventTree",f);
-	TTreeReaderValue<Int_t> eventSize(myReader, "fEventSize");
+	TTreeReaderValue<Int_t> events(myReader, "fEventSize");
 
 	//Loop over all entries of the TTree or TChain
 	while (myReader.Next()) {
-		totalSize+=*eventSize;
+		totalSize+=*events;
 	}
 
 	Int_t sizeInMB = totalSize/1024/1024;
@@ -45,7 +45,7 @@ void AnalyzeTree() {
 	TTree *tree = (TTree *)f->Get("EventTree");
 	//To use SetBranchAddress() with simple types (e.g. double, int)
 	// instead of objects (e.g. syd::vector<Particle>).
-	tree->SetMAkeClass(1);
+	tree->SetMakeClass(1);
 
 	// creatiing the TH1F histogram
 	hPosX = new TH1F("hPosX", "Position in X", 20, -5, 5);
@@ -53,12 +53,12 @@ void AnalyzeTree() {
 	hPosX->Sumw2();
 
 	Long64_t nentries = tree->GetEntries();
-	for (Long64_t i=0; i<nenetries; i++) {
+	for (Long64_t i=0; i<nentries; i++) {
 		nParticlesBranch->GetEntry(i);
 		particlesPosXBranch->GetEntry(i);
 		particlesMomentumBranch->GetEntry(i);
-		for (int iParticle=0; iParticle < nParticles; ++iParticles) {
-			if (particlesMomentum[iParticle} > 40.0)
+		for (int iParticle=0; iParticle < nParticles; ++iParticle) {
+			if (particlesMomentum[iParticle] > 40.0)
 				hPosX->Fill(particlesPosX[iParticle]);
 		}
 	}
