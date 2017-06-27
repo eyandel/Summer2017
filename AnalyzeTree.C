@@ -34,7 +34,7 @@ void AnalyzeTree() {
 	//Loop over all entries of the TTree or TChain
 	while (myReader.Next()) {
 		// Do the analysis...
-		for (int iParticle = 0; iParticle < particlePosX.GetSize(); ++iParticle){
+		for (int iParticle = 0; iParticle < particlesPosX.GetSize(); ++iParticle){
 			if (particlesMomentum[iParticle] > 40.0)
 				hPosX->Fill(particlesPosX[iParticle]);
 		}
