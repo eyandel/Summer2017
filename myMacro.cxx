@@ -3,4 +3,4 @@ void myMacro(){
 	// it sounds like "Cognito, ergo sum" said by HAL9000...
 }
 
-# root -q -b myMacro.cxx
+$ root -q -b myMacro.cxx
