@@ -1,3 +1,6 @@
+#include <iostream>
+#include <cmath>
+
 int myMacro(int k=0){
 	cout << "Trivial ROOT macro: Hello, World!" << endl;
 	// it sounds like "Cognito, ergo sum" said by HAL9000...
