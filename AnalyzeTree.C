@@ -2,6 +2,8 @@
 #include "TTree.h"
 #include "TBranch.h"
 #include "TH1F.h"
+#include "TTreeReader.h"
+#include "TTreeReaderArray.h"
 
 const Int_t kMaxfParticles = 1293;
 
