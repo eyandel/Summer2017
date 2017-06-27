@@ -31,8 +31,10 @@ const Int_t kMaxfParticles = 1293;
 
 class EventSelector : public TSelector {
 public :
+	// Variables used to store the data
+	Int_t fNumberOfEvents; // Total number of events
 
-   EventSelector(TTree * = 0) { }
+   EventSelector(TTree * = 0): fNumberOfEvents(0) { }
    virtual ~EventSelector() { }
 
    virtual void    Init(TTree *tree);
@@ -70,6 +72,11 @@ Bool_t EventSelector::Process(Long64_t entry)
    // This function should contain the "body" of the analysis: select relevant
    // tree entries, run algorithms on the tree entry and typically fill histograms.
 
+	//print some information about the current entry
+	printf("Processing Entry number %ld\n", entry);
+	// increase the total number of entries
+	++fNumberOfEvents;
+
    return kTRUE;
 }
 
@@ -78,5 +85,9 @@ void EventSelector::Terminate()
    // The Terminate() function is the last function to be called during the
    // analysis of a tree with a selector. It always runs on the client, it can
    // be used to present the results graphically or save the results to file.
+
+	// print the result
+	printf("\nTotal Number of Events: %d\n", fNumberOfEvents);
+}
 
 }
