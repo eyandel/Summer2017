@@ -87,7 +87,7 @@ void EventDataSelector::SlaveBegin(TTree *tree)
    // For PROOF, this is called for each worker.
    // The TTree* is there for backward compatibility; e.g. PROOF passes 0.
 
-	hPosX = newTH1F("hPosX", "Position in X",20,-5,5);
+	hPosX = new TH1F("hPosX", "Position in X",20,-5,5);
 	// add error bars
 	hPosX->Sumw2();
 
@@ -115,7 +115,7 @@ Bool_t EventDataSelector::Process(Long64_t entry)
    // *** 2. *** Do the actual analysis
 	for (int iParticle = 0; iParticle < fNParticles; ++iParticle) {
 		if (fParticlesMomentum[iParticle] > 40.0)
-			fPosX->Fill(fParticlesPosX[iParticle]);
+			hPosX->Fill(fParticlesPosX[iParticle]);
 	}
 
    return kTRUE;
