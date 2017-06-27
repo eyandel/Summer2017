@@ -31,10 +31,15 @@ const Int_t kMaxfParticles = 1293;
 
 class EventSelector : public TSelector {
 public :
-	// Variables used to store the data
-	Int_t fNumberOfEvents; // Total number of events
+	Int_t fTotalDataSize; // Sum of data size (in bytes) of all events
 
-   EventSelector(TTree * = 0): fNumberOfEvents(0) { }
+	// Variables used to access and store the data
+	TTreeReader fReader; // the tree reader
+	TTreeReaderValue<Int_t> fCurrentEventSize; // size of the current event
+
+   EventSelector(TTree * = 0): 
+	fTotalDataSize(0),
+	fCurrentEventSize(fReader, "fEventSize") { }
    virtual ~EventSelector() { }
 
    virtual void    Init(TTree *tree);
@@ -51,6 +56,9 @@ void EventSelector::Init(TTree *tree)
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
    // pointers of the tree will be set.
+
+	// Associate the TTreeReader with the tree we want to read
+	fReader.SetTree(tree);
 }
 
 void EventSelector::SlaveBegin(TTree *tree)
@@ -72,10 +80,16 @@ Bool_t EventSelector::Process(Long64_t entry)
    // This function should contain the "body" of the analysis: select relevant
    // tree entries, run algorithms on the tree entry and typically fill histograms.
 
-	//print some information about the current entry
-	printf("Processing Entry number %ld\n", entry);
-	// increase the total number of entries
-	++fNumberOfEvents;
+	// Tell the TTreeReader to get the data for
+	// the entry number "entry" in the current tree:
+	fReader.SetLocalEntry(entry);
+
+	// We can still print some informations about the current event
+	// printf("Size of Event %ld = %d Bytes\n", entry, *fCurrentEventSize);
+
+	// compute the total size of all events; dereference the TTreeReaderValue
+	// using '*' to get the value it refers to, just like an iterator.
+	fTotalDataSize += *fCurrentEventSize;
 
    return kTRUE;
 }
@@ -87,6 +101,7 @@ void EventSelector::Terminate()
    // be used to present the results graphically or save the results to file.
 
 	// print the result
-	printf("\nTotal Number of Events: %d\n", fNumberOfEvents);
+	int sizeInMB = fTotalDataSize/1024/1024;
+	printf("Total size of all events: %d MB\n", sizeInMB);
 
 }
