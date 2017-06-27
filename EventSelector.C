@@ -88,6 +88,5 @@ void EventSelector::Terminate()
 
 	// print the result
 	printf("\nTotal Number of Events: %d\n", fNumberOfEvents);
-}
 
 }
